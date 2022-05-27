@@ -57,7 +57,7 @@ def index():
     
     return flask.render_template("index.html", **sust)
 
-
+# Muestra el perfil del usuario logueado
 @app.route('/profile')
 def profile():
     usr = UserDto.current_user()
@@ -77,7 +77,7 @@ def profile():
     
     return flask.render_template("profile.html", **sust)
 
-
+# Iniciar sesión
 @app.route('/login', methods=["POST"])
 def login():
     txt_usuario = flask.request.form.get("username")
@@ -106,13 +106,13 @@ def login():
 def login_page():
     return flask.render_template("login.html")
 
-
+# Cerrar sesión
 @app.route("/logout")
 def logout():
     flask_login.logout_user()
     return flask.redirect("/")
 
-
+#Registrarse
 @app.route('/register', methods=["POST"])
 def register():
     usuario_txt = flask.request.form.get("username")
@@ -148,7 +148,7 @@ def register():
 def register_page():
     return flask.render_template("register.html")
 
-
+# Publicar libro
 @app.route('/post', methods=["POST"])
 def post():
     #Obtener los campos del formulario
@@ -200,7 +200,7 @@ def post_page():
     
     return flask.render_template("post.html", **sust)
 
-
+# Hacer un comentario y valoracion de un libro
 @app.route('/libro/<post_titulo>/comment', methods=["GET","POST"])
 def comment_post(post_titulo):
     #Obtener los campos del formulario
@@ -239,7 +239,7 @@ def comment_post(post_titulo):
 
     return flask.render_template("libro.html", **sust)
 
-
+# Buscar libros por titulo o autor
 @app.route("/search", methods=["POST"])
 def search():
     busqueda = flask.request.form.get("edSearch")
@@ -255,7 +255,7 @@ def search():
     
     return flask.render_template("search.html", **sust)
 
-
+# Mostrar un libro
 @app.route('/libro')
 def libro():
     usr = UserDto.current_user()
@@ -276,9 +276,9 @@ def libro():
     
     return flask.render_template("libro.html", **sust)
 
-
+# Editar perfil
 @flask_login.login_required
-@app.route('/edit', methods=["POST"]) # Editar perfil
+@app.route('/edit', methods=["POST"]) 
 def edit():
     #Obtener los campos del formulario
     txt_nombre = flask.request.form.get("edNombre")
@@ -313,8 +313,8 @@ def edit_page():
     
     return flask.render_template("edit.html", **sust)
 
-
-@app.route('/user_profile/<usuario>') # Perfil demas usuarios
+# Perfil de los otros usuarios
+@app.route('/user_profile/<usuario>') 
 def user_profile(usuario):
     usr = UserDto.current_user()
     usuario = UserDto.busca(srp, usuario)
@@ -333,9 +333,9 @@ def user_profile(usuario):
     
     return flask.render_template("profile.html", **sust)
 
-
+# Editar libro
 @flask_login.login_required
-@app.route('/edit_libro/<post_titulo>', methods=["POST"]) # Editar libro
+@app.route('/edit_libro/<post_titulo>', methods=["POST"]) 
 def edit_libro(post_titulo):
     #Obtener los campos del formulario
     txt_titulo = flask.request.form.get("edTitulo")
@@ -418,6 +418,7 @@ def edit_libro_page(post_titulo):
 
     return flask.render_template("edit_libro.html", **sust)
 
+# Eliminar un comentario escrito por el usuario
 @flask_login.login_required
 @app.route('/delete_comment/<id>')
 def delete_comment(id):
@@ -434,6 +435,7 @@ def delete_comment(id):
     
     return flask.redirect("/")
 
+# Eliminar un libro publicado por el usuario
 @flask_login.login_required
 @app.route('/delete_post/<titulo>')
 def delete_post(titulo):
