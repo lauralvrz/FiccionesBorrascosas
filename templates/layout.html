@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+    integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <title>Ficciones Borrascosas | {% block title %}{% endblock %}</title>
+</head>
+
+<body>
+  <div
+    class="sticky-top d-flex flex-column flex-md-row align-items-center p-2 px-md-5 mb-3 bg-light border-bottom box-shadow shadow-sm">
+    <h4 class="my-0 mr-md-auto font-weight-bold mx-auto user-select-none">
+      <i class="fas fa-book-open mr-2 ml-3"></i>Ficciones Borrascosas
+    </h4>
+    <form class="my-1 mr-md-auto" action="/search" method="POST">
+      <input class="p-2 rounded bg-white border" type="text" placeholder="Libros, autores, ..." id="edSearch"
+        name=edSearch style="width: 18rem;">
+      <button type="submit" class="p-2 btn btn-dark shadow-sm" value=Submit>
+        <i class="fas fa-search"></i>
+      </button>
+    </form>
+    <nav class="my-2 mr-md-auto">
+      <a class="btn btn-floating p-2" href="/" title="Home" role="button">
+        <i class="fas fa-home"></i> Home
+      </a>
+      {% if not usr %}
+      <a class="btn btn-floating p-2" href="/login" role="button">
+        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+      </a>
+      <a class="btn btn-floating p-2" href="/register" role="button">
+        <i class="fas fa-user-circle"></i> Registrarse
+      </a>
+      {% else %}
+      <a class="btn btn-floating p-2" href="/profile" role="button">
+        <i class="fas fa-user"></i> Mi Perfil
+      </a>
+      <a class="btn btn-floating p-2" href="/logout" role="button">
+        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+      </a>
+      {% endif %}
+    </nav>
+  </div>
+  <div class="container" style="min-height: 75vh;">
+    {% block body %}{% endblock %}
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center text-lg-start bg-light text-muted mt-5 border-top">
+    <div class="text-center p-4">
+      <br>
+      <div class="container p-4">
+        Contacto:
+        <!-- Google -->
+        <a class="btn btn-outline-light btn-floating m-1" style="background-color: #dd4b39;"
+          href="mailto:lauraalvarez0800@gmail.com" role="button"><i class="fab fa-google"></i></a>
+
+        <!-- Github -->
+        <a class="btn btn-outline-light btn-floating m-1" style="background-color: #4e4e4e;"
+          href="https://github.com/lauralvrz" role="button"><i class="fab fa-github"></i></a>
+
+        <!-- Facebook -->
+        <a class="btn btn-outline-light btn-floating m-1" style="background-color: #2783f4;"
+          href="/" role="button"><i class="fab fa-facebook"></i></a>
+      </div>
+      <a class="text-reset fw-bold" href="https://github.com/lauralvrz">Laura Álvarez Iglesias</a>
+      <br>
+      <!-- Copyright -->
+      © <script>
+        document.write(new Date().getFullYear())
+      </script> Copyright:
+      Ficciones Borrascosas.
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

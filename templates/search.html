@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block title %}Buscar{% endblock %}
+
+{% block body %}
+
+{% if usr %}
+{% if usr.nombre == "" %}
+<h2 class="text-center p-4 mt-2">@{{ usr.usuario }}, miles de historias a un <em>click</em>!</h2>
+{% else %}
+<h2 class="text-center p-4 mt-2">{{ usr.nombre }}, miles de historias a un <em>click</em>!</h2>
+{% endif %}
+{% else %}
+<h2 class="text-center p-4 mt-2">Ficciones Borrascosas, miles de historias a un <em>click</em>!</h2>
+{% endif %}
+<div class="row">
+  <div class="col">
+    <h3>Resultado para: {{ busqueda }}</h3>
+  </div>
+</div>
+<br>
+{% if posts %}
+<div class="row mt-3">
+  {% for post in posts if (post.titulo.lower() == busqueda.lower() or post.autor.lower() == busqueda.lower()) %}
+  <div class="col-sm-3">
+    <div class="card shadow mb-5" style="max-width: 18rem;">
+      <img class="card-img-top rounded" src="{{ post.imagen }}" style="max-height:20rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{ post.titulo }}</h5>
+        <p class="card-text">{{ post.autor }}</p>
+        <a href="{{ url_for('libro', libro=post.titulo) }}" class="stretched-link"></a>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">Publicado por @{{ post.usuario }}</small>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <h5 class="text-center">No se ha encontrado resultado</h5>
+  {% endfor %}
+</div>
+{% else %}
+<div class="row mt-3">
+  <h5 class="text-center">No se ha encontrado resultado</h5>
+</div>
+{% endif %}
+
+{% endblock %}

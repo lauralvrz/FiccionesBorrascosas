@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}Registrarse{% endblock %}
+
+{% block body %}
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+</head>
+
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form class="formulario" action="/register" method="POST" autocomplete="off">
+        <h3>Registrarse</h3>
+    
+        <label class="etiq" for="username">Usuario</label>
+        <input class="entrada" type="text" placeholder="Usuario" id="username" name=username>
+
+        <label class="etiq" for="email">Correo electrónico</label>
+        <input class="entrada" type="text" placeholder="Correo electrónico" id="email" name=email>
+    
+        <label class="etiq" for="password">Contraseña</label>
+        <input class="entrada" type="password" placeholder="Contraseña" id="password" name=password>
+            
+        <div class="alert alert-danger" role="alert" style="font-weight: bolder; color: red; background-color: transparent;">
+            {% with mensajes_error = get_flashed_messages() %}
+            {% if mensajes_error %}
+                {% for mensaje in mensajes_error %}
+                    {{ mensaje }}
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    
+        <button class="boton" type=submit value=register>Registrarse</button>
+        <p></p>
+        <p style="text-align: center; margin-top: 1rem;">¿Ya tienes una cuenta? <a id="enlace" href="/login" style="font-size: large;">Inicia Sesión</a></p>
+    </form>
+
+</body>
+
+
+{% endblock %}

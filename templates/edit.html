@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block title %}Editar Perfil{% endblock %}
+
+{% block body %}
+
+<h3 class="text-center pt-5 pb-3">Editar perfil:</h3>
+<form class="container w-75 bg-light jumbotron shadow border p-5" action="/edit" method="POST" autocomplete="off">
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="nombre">Nombre:</label>
+            <input type="text" class="form-control" id="edNombre" placeholder="{{usr.nombre}}" value="{{usr.nombre}}" name=edNombre>
+        </div>
+        <div class="form-group col">
+            <label for="correo">Correo electrónico:</label>
+            <input type="text" class="form-control" id="edEmail" placeholder="{{usr.email}}" value="{{usr.email}}" name=edEmail>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <textarea class="form-control" id="edDescripcion" rows="3" name=edDescripcion placeholder="{{usr.descripcion}}" value="{{usr.descripcion}}"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="foto">Foto de perfil:</label>
+        <input type="text" class="form-control" id="edFoto" placeholder="{{usr.foto}}" value="{{usr.foto}}" name=edFoto>
+    </div>
+    {% with mensajes_error = get_flashed_messages() %}
+    {% if mensajes_error %}
+    <div class="alert alert-danger" id="dvErrores" role="alert">
+        {% for mensaje in mensajes_error %}
+        <strong>{{ mensaje }}</strong>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <div class="row pt-4 justify-content-center">
+        <div class="col-4">
+            <a href="/profile" title="Cancelar">
+                <button type="button" class="btn btn-outline-danger p-2 font-weight-bold rounded-pill"
+                    style="width: 10rem;">
+                    <i class="fas fa-times-circle"></i>
+                    <span class="align-top">Cancelar</span>
+                </button>
+            </a>
+        </div>
+        <div class="col-4">
+            <button type="submit" class="btn btn-primary p-2 font-weight-bold rounded-pill" value="save"
+                style="width: 10rem;">
+                <i class="fas fa-check-circle"></i>
+                <span class="align-top">Guardar</span>
+            </button>
+        </div>
+    </div>
+</form>
+<br>
+
+{% endblock %}

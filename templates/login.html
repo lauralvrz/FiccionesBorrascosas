@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block title %}Login{% endblock %}
+
+{% block body %}
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form class="formulario" action="/login" method="POST" autocomplete="off">
+        <h3>Iniciar Sesión</h3>
+    
+        <label class="etiq" for="username">Usuario</label>
+        <input class="entrada" type="text" placeholder="Usuario o Email" id="username" name=username>
+    
+        <label class="etiq" for="password">Contraseña</label>
+        <input class="entrada" type="password" placeholder="Contraseña" id="password" name=password>
+            
+        <div id="dvErrores" style="font-weight: bolder; color: red; background-color: transparent;">
+            {% with mensajes_error = get_flashed_messages() %}
+            {% if mensajes_error %}
+                {% for mensaje in mensajes_error %}
+                    {{ mensaje }}
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    
+        <button class="boton" type=submit value=Login>Iniciar Sesión</button>
+        <p></p>
+        <p style="text-align: center; margin-top: 1rem;">¿No tienes cuenta? <a id="enlace" href="/register" style="font-size: large;">Regístrate</a></p>
+    </form>
+
+</body>
+
+{% endblock %}

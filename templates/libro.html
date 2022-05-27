@@ -1,0 +1,175 @@
+{% extends "layout.html" %}
+{% block title %}Libro{% endblock %}
+
+{% block body %}
+
+{% for post in posts if post.titulo == libro %}
+
+<div style="margin-top:3rem">
+    <div class="row">
+        <div class="col-sm-4">
+            <img class="rounded border" src="{{ post.imagen }}" style="max-width:20rem;">
+            <figcaption class="figure-caption mt-1 mb-3">
+                Publicado por <a href="{{ url_for('user_profile', usuario=post.usuario) }}">@{{ post.usuario }}</a>
+            </figcaption>
+        </div>
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="col">
+                    <h2>{{ post.titulo }}</h2>
+                </div>
+                <div class="col-auto">
+                    <a href="/" title="Atras">
+                        <button type="button"
+                            class="rounded-pill shadow-sm p-2 btn btn-outline-primary font-weight-bold"
+                            style="width: 8rem;">
+                            <i class="fas fa-chevron-circle-left"></i>
+                            Atrás
+                        </button>
+                    </a>
+                </div>
+                {% if post.usuario == usr.usuario %}
+                <div class="col-auto">
+                    <a href="{{ url_for('edit_libro', post_titulo=post.titulo) }}" title="Editar">
+                        <button type="button"
+                            class="rounded-pill shadow-sm p-2 btn btn-outline-warning font-weight-bold"
+                            style="width: 8rem;">
+                            <i class="fas fa-edit"></i>
+                            Editar
+                        </button>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            <h5>{{ post.autor }}</h5>
+            <br>
+            <p class="border-bottom">Resumen</p>
+            <p>{{ post.resumen }}</p>
+            <br>
+        </div>
+    </div>
+    <div class="row border-bottom mb-4"></div>
+    <div class="row">
+        <div class="col-sm-4 text-right">
+            <h4>Comentarios: </h4>
+        </div>
+        <div class="scrollbox col-sm-8">
+            {% for comment in comentarios if comment.libro == libro %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{{ url_for('user_profile', usuario=comment.usuario) }}">@{{ comment.usuario }}</a> ha
+                        comentado:
+                        {% if comment.valoracion == "1" %}
+                        <i class="fas fa-star float-right"></i>
+                        <i class="fas fa-star float-right"></i>
+                        <i class="fas fa-star float-right"></i>
+                        <i class="fas fa-star float-right"></i>
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        {% elif comment.valoracion == "2" %}
+                        <i class="fas fa-star float-right"></i>
+                        <i class="fas fa-star float-right"></i>
+                        <i class="fas fa-star float-right"></i>
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        {% elif comment.valoracion == "3" %}
+                        <i class="fas fa-star float-right"></i>
+                        <i class="fas fa-star float-right"></i>
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        {% elif comment.valoracion == "4" %}
+                        <i class="fas fa-star float-right"></i>
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        {% elif comment.valoracion == "5" %}
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        <i class="fas fa-star float-right" style="color:#ffce1c"></i>
+                        {% endif %}
+                    </h5>
+                    <p class="card-text">{{ comment.comentario }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Publicado el {{ comment.fecha }}
+                    </small>
+                    {% if usr.usuario == comment.usuario %}
+                    <small class="float-right">
+                        <a href="{{ url_for('delete_comment', id=comment.id) }}" class="badge badge-danger user-select-none">Eliminar <i class="fas fa-trash-alt"></i></a>
+                    </small>
+                    {% else %}
+                    <small class="float-right">
+                        <button type="button" class="btn btn-outline-danger btn-sm rounded-circle" data-toggle="button" aria-pressed="false">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </small>
+                    {% endif %}
+                </div>
+            </div>
+            <br>
+            {% endfor %}
+        </div>
+        {% if usr %}
+        <form class="container bg-light jumbotron border p-5 mt-4"
+            action="{{ url_for('comment_post', post_titulo=post.titulo) }}" method="POST" autocomplete="off">
+            <h5 class="border-bottom mb-3 p-2">Comenta tu opinión sobre el libro {{post.titulo}}:</h5>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="Comentario">Comentario:</label>
+                <div class="col-sm-10 my-2">
+                    <textarea class="form-control" id="edComentario" rows="4" name=edComentario></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="valoracion" class="col-sm-2 col-form-label">Valoración: </label>
+                <div class="col-sm-10 my-2">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="edValoracion" id="inlineRadio1" value="1">
+                        <label class="form-check-label" for="inlineRadio1">1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="edValoracion" id="inlineRadio2" value="2">
+                        <label class="form-check-label" for="inlineRadio2">2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="edValoracion" id="inlineRadio3" value="3">
+                        <label class="form-check-label" for="inlineRadio3">3</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="edValoracion" id="inlineRadio4" value="4">
+                        <label class="form-check-label" for="inlineRadio4">4</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="edValoracion" id="inlineRadio5" value="5">
+                        <label class="form-check-label" for="inlineRadio5">5</label>
+                    </div>
+                </div>
+            </div>
+            {% with mensajes_error = get_flashed_messages() %}
+            {% if mensajes_error %}
+            <div class="alert alert-danger" id="dvErrores" role="alert">
+                {% for mensaje in mensajes_error %}
+                <strong>{{ mensaje }}</strong>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+            <div class="row pt-2">
+                <div class="col">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary p-2 font-weight-bold rounded-pill" value="save"
+                        style="width: 10rem;">Publicar</button>
+                </div>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}
