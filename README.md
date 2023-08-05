@@ -1,6 +1,6 @@
-# FiccionesBorrascosas
- _(Trabajo final para la asignatura "Aplicaciones con Lenguajes de Script")_
+# FiccionesBorrascosas ("Wuthering Fictions")
+ _(Final project for the course "Applications with Script Languages")_
 
-Aplicación web en la cual los usuarios pueden publicar libros y comentar sus valoraciones.
-- Lenguaje utilizado: Python3
-- Inspiración: GoodReads
+Web application in which users can publish books and comment their ratings.
+- Language used: Python3
+- Inspiration: GoodReads
